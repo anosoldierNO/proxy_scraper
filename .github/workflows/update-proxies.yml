@@ -1,0 +1,20 @@
+name: Update File
+
+on:
+  schedule:
+  - cron: "17,47 * * * *"
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: python3 -m pip install -r requirements.txt
+      - name: Update proxies
+        run: python3 main.py
+      - uses: test-room-7/action-update-file@v1
+        with:
+          file-path: proxies.txt
+          commit-msg: Update proxies
+          github-token: ${{ secrets.GITHUB_TOKEN }}
